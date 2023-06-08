@@ -1,14 +1,14 @@
 {
-  "name": "vite-component-library-template",
+  "name": "crontab-react",
   "private": false,
-  "version": "1.5.11",
-  "main": "./dist/vite-component-library-template.umd.js",
-  "module": "./dist/vite-component-library-template.es.js",
+  "version": "1.0.0",
+  "main": "./dist/crontab-react.umd.js",
+  "module": "./dist/crontab-react.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vite-component-library-template.es.js",
-      "require": "./dist/vite-component-library-template.umd.js"
+      "import": "./dist/crontab-react.es.js",
+      "require": "./dist/crontab-react.umd.js"
     },
     "./dist/style.css": "./dist/style.css"
   },
