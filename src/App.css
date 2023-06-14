@@ -82,3 +82,7 @@
   transition: 180ms box-shadow ease-in-out;
   color: #000000;
 }
+
+.cr-container-field-period {
+  max-width: 300px;
+}
