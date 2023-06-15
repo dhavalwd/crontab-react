@@ -65,21 +65,21 @@ function Crontab(props) {
       `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`
     );
 
-    let newPeriod = { value: "minute", label: "Minute" };
+    // let newPeriod = { value: "minute", label: "Minute" };
 
-    if (cronValue.months !== "*") {
-      newPeriod = { value: "year", label: "Year" };
-    } else if (cronValue.daysOfTheMonth !== "*") {
-      newPeriod = { value: "month", label: "Month" };
-    } else if (cronValue.daysOfTheWeek !== "*") {
-      newPeriod = { value: "week", label: "Week" };
-    } else if (cronValue.hours !== "*") {
-      newPeriod = { value: "day", label: "Day" };
-    } else if (cronValue.minutes !== "*") {
-      newPeriod = { value: "hour", label: "Hour" };
-    }
+    // if (cronValue.months !== "*") {
+    //   newPeriod = { value: "year", label: "Year" };
+    // } else if (cronValue.daysOfTheMonth !== "*") {
+    //   newPeriod = { value: "month", label: "Month" };
+    // } else if (cronValue.daysOfTheWeek !== "*") {
+    //   newPeriod = { value: "week", label: "Week" };
+    // } else if (cronValue.hours !== "*") {
+    //   newPeriod = { value: "day", label: "Day" };
+    // } else if (cronValue.minutes !== "*") {
+    //   newPeriod = { value: "hour", label: "Hour" };
+    // }
 
-    setPeriod(newPeriod);
+    // setPeriod(newPeriod);
   }, [cronValue]);
 
   const dot = (color = "transparent") => ({
@@ -143,7 +143,6 @@ function Crontab(props) {
 
   const handleChange = (newSelectedOptions, name) => {
     if (newSelectedOptions.length > 0) {
-      console.log("newSelectedOptions", newSelectedOptions);
       const sortedSelectedOptions = [...newSelectedOptions].sort(
         (a, b) => a.value - b.value
       );
@@ -194,7 +193,6 @@ function Crontab(props) {
     const splitItem = value.split("-");
 
     if (splitItem[0] >= splitItem[1]) {
-      console.log("Invalid hyphen value");
       return false;
     }
 
@@ -211,7 +209,6 @@ function Crontab(props) {
     const cronInputArray = cronInputValue.split(" ");
 
     if (cronInputArray.length !== 5) {
-      console.log("Invalid value space");
       return false;
     }
 
@@ -272,6 +269,7 @@ function Crontab(props) {
     }
 
     const cronInputArray = cronInputValue.split(" ");
+    let newPeriod = { value: "minute", label: "Minute" };
 
     cronInputArray.forEach((item, index) => {
       let selectedOptionsForField = [];
@@ -318,16 +316,18 @@ function Crontab(props) {
         selectedOptionsForField = [...selectedOptionsForField, ...[]];
         cronStringValue = "*";
       } else {
-        if (!Number(item)) {
+        if (Number(item) || Number(item) === 0) {
+          const selectedOptions = handleCronInput(item, index);
+          selectedOptionsForField = [
+            ...selectedOptionsForField,
+            ...selectedOptions,
+          ];
+          cronStringValue = cronStringValue
+            ? `${cronStringValue},${item}`
+            : item;
+        } else {
           return;
         }
-
-        const selectedOptions = handleCronInput(item, index);
-        selectedOptionsForField = [
-          ...selectedOptionsForField,
-          ...selectedOptions,
-        ];
-        cronStringValue = cronStringValue ? `${cronStringValue},${item}` : item;
       }
 
       setSelectedValues((prevState) => ({
@@ -340,6 +340,20 @@ function Crontab(props) {
         [CRON_VALUE_MAP[index]]: cronStringValue,
       }));
     });
+
+    if (cronInputArray[3] !== "*") {
+      newPeriod = { value: "year", label: "Year" };
+    } else if (cronInputArray[2] !== "*") {
+      newPeriod = { value: "month", label: "Month" };
+    } else if (cronInputArray[4] !== "*") {
+      newPeriod = { value: "week", label: "Week" };
+    } else if (cronInputArray[1] !== "*") {
+      newPeriod = { value: "day", label: "Day" };
+    } else if (cronInputArray[0] !== "*") {
+      newPeriod = { value: "hour", label: "Hour" };
+    }
+
+    setPeriod(newPeriod);
   };
 
   const handlePeriodChange = (e) => {
