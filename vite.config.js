@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 import { name, peerDependencies, dependencies } from "./package.json";
 
 export default defineConfig({
+  base: "/<REPO>/",
   plugins: [react()],
   build: {
     lib: {
