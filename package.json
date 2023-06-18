@@ -63,9 +63,15 @@
     "type": "git",
     "url": "git+https://github.com/dhavalwd/react-crontab.git"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "crontab",
+    "schedule",
+    "storybook",
+    "django-celery-beat"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dhavalwd/react-crontab/issues"
   },
