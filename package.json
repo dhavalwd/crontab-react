@@ -75,7 +75,7 @@
   "bugs": {
     "url": "https://github.com/dhavalwd/react-crontab/issues"
   },
-  "homepage": "http://dhavalwd.github.io/crontab-react",
+  "homepage": "https://dhavalwd.github.io/crontab-react",
   "dependencies": {
     "react-select": "^5.7.3"
   }
