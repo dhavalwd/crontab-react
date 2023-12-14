@@ -20,6 +20,8 @@ const DEFAULT_CRON = {
   daysOfTheWeek: "*",
 };
 
+const ALPHABETS_REGEX = /[a-z]/i;
+
 const DEFAULT_CRON_SELECTED = {
   minutes: [],
   hours: [],
@@ -46,16 +48,31 @@ const CRON_OPTIONS_MAP = {
 
 const DEFAULT_CRON_STRING = "* * * * *";
 
+/**
+ * Crontab component
+ * @param {object} props - Props object
+ * @param {boolean} [props.shortSelectedOptions=true] - Whether to display shortened selected options
+ * @param {string} [props.invalidCronStringErrorMessage=""] - Error message to display if the cron string is invalid
+ * @param {string} [props.value=""] - Cron string value to initialize the component with.
+ *
+ * @returns {JSX.Element} - Crontab component JSX element
+ */
+
 function Crontab(props) {
-  const { shortSelectedOptions = true } = props;
+  const {
+    shortSelectedOptions = true,
+    invalidCronStringErrorMessage = "",
+    value = "",
+  } = props;
   const [period, setPeriod] = useState({ value: "minute", label: "Minute" });
   const [cronValue, setCronValue] = useState(DEFAULT_CRON);
-  const [cronString, setCronString] = useState(DEFAULT_CRON_STRING);
+  const [cronString, setCronString] = useState(value || DEFAULT_CRON_STRING);
   const [selectedMinutes, setSelectedMinutes] = useState("");
   const [selectedHours, setSelectedHours] = useState("");
   const [selectedDaysOfTheMonth, setSelectedDaysOfTheMonth] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDaysOfTheWeek, setSelectedDaysOfTheWeek] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [selectedValues, setSelectedValues] = useState(DEFAULT_CRON_SELECTED);
 
@@ -81,6 +98,13 @@ function Crontab(props) {
 
     // setPeriod(newPeriod);
   }, [cronValue]);
+
+  useEffect(() => {
+    if (value) {
+      setCronString(value);
+      handleCronInputBlur(value);
+    }
+  }, [value]);
 
   const dot = (color = "transparent") => ({
     alignItems: "center",
@@ -206,6 +230,10 @@ function Crontab(props) {
       return true;
     }
 
+    if (ALPHABETS_REGEX.test(cronInputValue)) {
+      return false;
+    }
+
     const cronInputArray = cronInputValue.split(" ");
 
     if (cronInputArray.length !== 5) {
@@ -260,13 +288,24 @@ function Crontab(props) {
     return selectedOptions;
   };
 
-  const handleCronInputBlur = (e) => {
-    const cronInputValue = e.target.value;
+  const handleCronInputBlur = (cronInputValue) => {
     const isValidCronValue = validateCronInput(cronInputValue);
 
+    console.log("isValidCronValue", isValidCronValue);
+
     if (!isValidCronValue) {
+      setErrors({
+        ...errors,
+        cronString:
+          invalidCronStringErrorMessage || "Crontab String is Invalid",
+      });
       return;
     }
+
+    setErrors({
+      ...errors,
+      cronString: undefined,
+    });
 
     const cronInputArray = cronInputValue.split(" ");
     let newPeriod = { value: "minute", label: "Minute" };
@@ -417,11 +456,18 @@ function Crontab(props) {
       <input
         type="text"
         value={cronString}
-        className="cr-container-cron-input"
-        onChange={(e) => setCronString(e.target.value)}
-        onBlur={handleCronInputBlur}
+        className={`cr-container-cron-input ${
+          errors.cronString && "cr-has-error"
+        }`}
+        onChange={(e) => {
+          setCronString(e.target.value);
+        }}
+        onBlur={(e) => handleCronInputBlur(e.target.value)}
         style={{ width: "400px" }}
       />
+      {errors.cronString && (
+        <span className="cr-error-text">{errors.cronString}</span>
+      )}
       <div className="cr-container-field">
         <span>Period</span>
         <Select
@@ -447,6 +493,7 @@ function Crontab(props) {
             menuShouldScrollIntoView={false}
             placeholder={<div>Every month</div>}
             cropWithEllipsis
+            closeMenuOnSelect={false}
             value={selectedValues.months}
             {...(shortSelectedOptions
               ? { formatOptionLabel: shortFormatOptionLabel }
@@ -466,6 +513,7 @@ function Crontab(props) {
             name="daysOfTheMonth"
             placeholder={<div>Every day of the month</div>}
             value={selectedValues.daysOfTheMonth}
+            closeMenuOnSelect={false}
           />
         </div>
       )}
@@ -481,6 +529,7 @@ function Crontab(props) {
             isMulti
             placeholder={<div>Every day of the week</div>}
             value={selectedValues.daysOfTheWeek}
+            closeMenuOnSelect={false}
             {...(shortSelectedOptions
               ? { formatOptionLabel: shortFormatOptionLabel }
               : {})}
@@ -499,6 +548,7 @@ function Crontab(props) {
             isMulti
             placeholder={<div>Every Hour</div>}
             value={selectedValues.hours}
+            closeMenuOnSelect={false}
           />
         </div>
       )}
@@ -514,6 +564,7 @@ function Crontab(props) {
             isMulti
             placeholder={<div>Every Minute</div>}
             value={selectedValues.minutes}
+            closeMenuOnSelect={false}
           />
         </div>
       )}
