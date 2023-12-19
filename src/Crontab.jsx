@@ -275,8 +275,6 @@ function Crontab(props) {
   const handleCronInputBlur = (cronInputValue) => {
     const isValidCronValue = validateCronInput(cronInputValue);
 
-    console.log("isValidCronValue", isValidCronValue);
-
     if (!isValidCronValue) {
       setErrors({
         ...errors,
