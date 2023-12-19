@@ -9,6 +9,10 @@ export default {
     shortSelectedOptions: { control: "boolean" },
     invalidCronStringErrorMessage: { control: "text" },
     value: { control: "text" },
+    onChange: {
+      action: "changed value",
+      argsType: "function", // This line specifies that onClick is a function
+    },
   },
 };
 
