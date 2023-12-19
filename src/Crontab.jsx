@@ -182,15 +182,15 @@ function Crontab(props) {
 
   const validateAllowedValues = (arrayOfNumbers, index) => {
     if (index === 0) {
-      return arrayOfNumbers.some((number) => number < 0 || number > 59);
+      return arrayOfNumbers.every((number) => number >= 0 && number <= 59);
     } else if (index === 1) {
-      return arrayOfNumbers.some((number) => number < 0 || number > 23);
+      return arrayOfNumbers.every((number) => number >= 0 && number <= 23);
     } else if (index === 2) {
-      return arrayOfNumbers.some((number) => number < 1 || number > 31);
+      return arrayOfNumbers.every((number) => number >= 1 && number <= 31);
     } else if (index === 3) {
-      return arrayOfNumbers.some((number) => number < 1 || number > 12);
+      return arrayOfNumbers.every((number) => number >= 1 && number <= 12);
     } else if (index === 4) {
-      return arrayOfNumbers.some((number) => number < 1 || number > 7);
+      return arrayOfNumbers.every((number) => number >= 1 && number <= 7);
     }
     return false;
   };
@@ -198,7 +198,11 @@ function Crontab(props) {
   const validHyphenRange = (value, index) => {
     const splitItem = value.split("-");
 
-    if (splitItem[0] >= splitItem[1]) {
+    if (splitItem.length !== 2) {
+      return false;
+    } else if (splitItem[0] === "" || splitItem[1] === "") {
+      return false;
+    } else if (splitItem[0] >= splitItem[1]) {
       return false;
     }
 
@@ -222,11 +226,11 @@ function Crontab(props) {
       return false;
     }
 
-    cronInputArray.forEach((item, index) => {
+    const isValid = cronInputArray.every((item, index) => {
       if (item.includes(",")) {
         const itemArr = item.split(",");
 
-        itemArr.forEach((item) => {
+        return itemArr.every((item) => {
           if (item.includes("-")) {
             return validHyphenRange(item, index);
           } else {
@@ -235,12 +239,14 @@ function Crontab(props) {
         });
       } else if (item.includes("-")) {
         return validHyphenRange(item, index);
+      } else if (item === "*") {
+        return true;
       } else {
         return validateAllowedValues([item], index);
       }
     });
 
-    return true;
+    return isValid;
   };
 
   const handleCronInputHyphenRange = (value, index) => {
@@ -313,7 +319,7 @@ function Crontab(props) {
               ? `${cronStringValue},${cronStringForField}`
               : cronStringForField;
           } else {
-            if (option === "*" || !Number(option)) {
+            if (option === "*" || (option !== "0" && !Number(option))) {
               return;
             }
             const selectedOptions = handleCronInput(option, index);
