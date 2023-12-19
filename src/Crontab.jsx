@@ -71,12 +71,12 @@ function Crontab(props) {
 
   // Set cron string value based on its value changes
   useEffect(() => {
-    // if (onChange) {
-    //   onChange(
-    //     `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`,
-    //     !!errors.cronString
-    //   );
-    // }
+    if (onChange) {
+      onChange(
+        `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`,
+        !!errors.cronString
+      );
+    }
     setCronString(
       `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`
     );
@@ -84,19 +84,10 @@ function Crontab(props) {
 
   useEffect(() => {
     if (value) {
-      // if (onChange) {
-      //   onChange(value, !!errors.cronString);
-      // }
       setCronString(value);
       handleCronInputBlur(value);
     }
   }, [value]);
-
-  useEffect(() => {
-    if (onChange) {
-      onChange(cronString, !!errors.cronString);
-    }
-  }, [cronString, errors.cronString]);
 
   const dot = (color = "transparent") => ({
     alignItems: "center",
@@ -216,8 +207,7 @@ function Crontab(props) {
     return validateAllowedValues(arrayOfNumbers, index);
   };
 
-  const validateCronInput = (cronValue) => {
-    const cronInputValue = cronValue.trim();
+  const validateCronInput = (cronInputValue) => {
     if (cronInputValue === DEFAULT_CRON_STRING) {
       return true;
     }
@@ -280,8 +270,13 @@ function Crontab(props) {
     return selectedOptions;
   };
 
-  const handleCronInputBlur = (cronInputValue) => {
+  const handleCronInputBlur = (cronValue) => {
+    const cronInputValue = cronValue.trim();
     const isValidCronValue = validateCronInput(cronInputValue);
+
+    if (onChange) {
+      onChange(cronValue, isValidCronValue);
+    }
 
     if (!isValidCronValue) {
       setErrors({
@@ -449,15 +444,8 @@ function Crontab(props) {
         className={`cr-container-cron-input ${
           errors.cronString && "cr-has-error"
         }`}
-        onChange={(e) => {
-          setCronString(e.target.value);
-        }}
-        onBlur={(e) => {
-          // if (onChange) {
-          //   onChange(e.target.value, !!errors.cronString);
-          // }
-          handleCronInputBlur(e.target.value);
-        }}
+        onChange={(e) => setCronString(e.target.value)}
+        onBlur={(e) => handleCronInputBlur(e.target.value)}
         style={{ width: "400px" }}
       />
       {errors.cronString && (
