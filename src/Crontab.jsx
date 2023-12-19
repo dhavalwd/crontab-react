@@ -209,7 +209,8 @@ function Crontab(props) {
     return validateAllowedValues(arrayOfNumbers, index);
   };
 
-  const validateCronInput = (cronInputValue) => {
+  const validateCronInput = (cronValue) => {
+    const cronInputValue = cronValue.trim();
     if (cronInputValue === DEFAULT_CRON_STRING) {
       return true;
     }
