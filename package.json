@@ -1,7 +1,7 @@
 {
   "name": "crontab-react",
   "private": false,
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Crontab React Component",
   "type": "module",
   "scripts": {
