@@ -4,6 +4,7 @@ import Crontab from "../Crontab";
 export default {
   title: "Example/Crontab",
   component: Crontab,
+  tags: ["autodocs"],
   argTypes: {
     shortSelectedOptions: { control: "boolean" },
     invalidCronStringErrorMessage: { control: "text" },
