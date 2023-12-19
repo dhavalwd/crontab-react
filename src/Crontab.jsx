@@ -560,13 +560,13 @@ function Crontab(props) {
 Crontab.propTypes = {
   value: PropTypes.string,
   invalidCronStringErrorMessage: PropTypes.string,
-  shortFormatOptionLabel: PropTypes.bool,
+  shortSelectedOptions: PropTypes.bool,
 };
 
 Crontab.defaultProps = {
   value: "",
   invalidCronStringErrorMessage: "",
-  shortFormatOptionLabel: true,
+  shortSelectedOptions: true,
 };
 
 export default Crontab;
