@@ -443,12 +443,14 @@ function Crontab(props) {
           errors.cronString && "cr-has-error"
         }`}
         onChange={(e) => {
+          setCronString(e.target.value);
+        }}
+        onBlur={(e) => {
           if (onChange) {
             onChange(e.target.value);
           }
-          setCronString(e.target.value);
+          handleCronInputBlur(e.target.value);
         }}
-        onBlur={(e) => handleCronInputBlur(e.target.value)}
         style={{ width: "400px" }}
       />
       {errors.cronString && (
