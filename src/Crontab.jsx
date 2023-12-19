@@ -57,7 +57,7 @@ const DEFAULT_CRON_STRING = "* * * * *";
  * @param {string} [props.value=""] - Cron string value to initialize the component with.
  * @returns {JSX.Element} - Crontab component JSX element
  */
-function Crontab(props) {
+export default function Crontab(props) {
   const {
     shortSelectedOptions = true,
     invalidCronStringErrorMessage = "",
@@ -554,5 +554,3 @@ function Crontab(props) {
     </div>
   );
 }
-
-export default Crontab;

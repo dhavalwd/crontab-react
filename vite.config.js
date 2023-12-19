@@ -2,10 +2,11 @@ import react from "@vitejs/plugin-react";
 import path from "node:path";
 import { defineConfig } from "vite";
 import { name, peerDependencies, dependencies } from "./package.json";
+import dtsPlugin from "vite-plugin-dts";
 
 export default defineConfig({
   base: "/",
-  plugins: [react()],
+  plugins: [react(), dtsPlugin()],
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.js"),
@@ -26,5 +27,8 @@ export default defineConfig({
         },
       },
     },
+  },
+  optimizeDeps: {
+    include: ["src/types/Crontab.d.ts"],
   },
 });
