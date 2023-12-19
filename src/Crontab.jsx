@@ -73,7 +73,8 @@ function Crontab(props) {
   useEffect(() => {
     if (onChange) {
       onChange(
-        `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`
+        `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`,
+        !!errors.cronString
       );
     }
     setCronString(
@@ -84,7 +85,7 @@ function Crontab(props) {
   useEffect(() => {
     if (value) {
       if (onChange) {
-        onChange(value);
+        onChange(value, !!errors.cronString);
       }
       setCronString(value);
       handleCronInputBlur(value);
@@ -447,7 +448,7 @@ function Crontab(props) {
         }}
         onBlur={(e) => {
           if (onChange) {
-            onChange(e.target.value);
+            onChange(e.target.value, !!errors.cronString);
           }
           handleCronInputBlur(e.target.value);
         }}
