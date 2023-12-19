@@ -24,6 +24,7 @@ export default defineConfig({
           react: "React",
           "react-dom": "ReactDOM",
           "react-select": "Select",
+          "prop-types": "PropTypes",
         },
       },
     },

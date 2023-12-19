@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
 
-import "./App.css";
+import "./style.css";
 import { groupConsecutiveNumbers, range } from "./utils";
 import {
   CRON_STRING_REGEX,
@@ -55,6 +55,7 @@ function Crontab(props) {
     shortSelectedOptions = true,
     invalidCronStringErrorMessage = "",
     value = "",
+    onChange = () => {},
   } = props;
   const [period, setPeriod] = useState({ value: "minute", label: "Minute" });
   const [cronValue, setCronValue] = useState(DEFAULT_CRON);
@@ -70,6 +71,11 @@ function Crontab(props) {
 
   // Set cron string value based on its value changes
   useEffect(() => {
+    if (onChange) {
+      onChange(
+        `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`
+      );
+    }
     setCronString(
       `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`
     );
@@ -77,6 +83,9 @@ function Crontab(props) {
 
   useEffect(() => {
     if (value) {
+      if (onChange) {
+        onChange(value);
+      }
       setCronString(value);
       handleCronInputBlur(value);
     }
@@ -105,11 +114,11 @@ function Crontab(props) {
         backgroundColor: isDisabled
           ? undefined
           : isSelected
-          ? "#1e99fa"
+          ? "#E9F5FF  "
           : isFocused
-          ? "grey"
+          ? "#f2f2f2"
           : undefined,
-        color: isDisabled ? "#ccc" : isSelected ? "white" : "black",
+        color: isDisabled ? "#ccc" : "black",
         cursor: isDisabled ? "not-allowed" : "default",
 
         ":active": {
@@ -125,18 +134,17 @@ function Crontab(props) {
     input: (styles) => ({ ...styles, ...dot() }),
     placeholder: (styles) => ({ ...styles, ...dot("#ccc") }),
     singleValue: (styles, { data }) => ({ ...styles, ...dot("grey") }),
+    multiValueRemove: (styles, { data }) => ({ ...styles, color: "#666" }),
   };
 
   const shortFormatOptionLabel = ({ value, label }, { context }) => {
     return context === "menu" ? (
       <div style={{ display: "flex" }}>
-        <div style={{ marginLeft: "4px", color: "#666" }}>{label}</div>
+        <div style={{ marginLeft: "4px" }}>{label}</div>
       </div>
     ) : (
       <div style={{ display: "flex" }}>
-        <div style={{ marginLeft: "4px", color: "#666" }}>
-          {label.substring(0, 3)}
-        </div>
+        <div style={{ marginLeft: "4px" }}>{label.substring(0, 3)}</div>
       </div>
     );
   };
@@ -436,6 +444,9 @@ function Crontab(props) {
           errors.cronString && "cr-has-error"
         }`}
         onChange={(e) => {
+          if (onChange) {
+            onChange(e.target.value);
+          }
           setCronString(e.target.value);
         }}
         onBlur={(e) => handleCronInputBlur(e.target.value)}
@@ -552,12 +563,14 @@ Crontab.propTypes = {
   value: PropTypes.string,
   invalidCronStringErrorMessage: PropTypes.string,
   shortSelectedOptions: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 Crontab.defaultProps = {
   value: "",
   invalidCronStringErrorMessage: "",
   shortSelectedOptions: true,
+  onChange: () => {},
 };
 
 export default Crontab;
