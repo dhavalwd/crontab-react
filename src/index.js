@@ -1,1 +1,5 @@
-export { default as Crontab } from "./Crontab";
+import Crontab from "./Crontab";
+
+export { Crontab };
+
+export default Crontab;
