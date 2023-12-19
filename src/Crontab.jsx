@@ -280,8 +280,6 @@ function Crontab(props) {
     const cronInputValue = cronValue.trim();
     const isValidCronValue = validateCronInput(cronInputValue);
 
-    console.log("isValidCronValue", isValidCronValue);
-
     if (onChange) {
       onChange(cronValue, !isValidCronValue);
     }
