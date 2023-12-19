@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import Select from "react-select";
+import PropTypes from "prop-types";
+
+import "./App.css";
 import { groupConsecutiveNumbers, range } from "./utils";
 import {
   CRON_STRING_REGEX,
@@ -57,7 +59,7 @@ const DEFAULT_CRON_STRING = "* * * * *";
  * @param {string} [props.value=""] - Cron string value to initialize the component with.
  * @returns {JSX.Element} - Crontab component JSX element
  */
-export default function Crontab(props) {
+function Crontab(props) {
   const {
     shortSelectedOptions = true,
     invalidCronStringErrorMessage = "",
@@ -554,3 +556,17 @@ export default function Crontab(props) {
     </div>
   );
 }
+
+Crontab.propTypes = {
+  value: PropTypes.string,
+  invalidCronStringErrorMessage: PropTypes.string,
+  shortFormatOptionLabel: PropTypes.bool,
+};
+
+Crontab.defaultProps = {
+  value: "",
+  invalidCronStringErrorMessage: "",
+  shortFormatOptionLabel: true,
+};
+
+export default Crontab;
