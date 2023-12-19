@@ -50,15 +50,11 @@ const DEFAULT_CRON_STRING = "* * * * *";
 
 /**
  * Crontab component
- *
+ * @component
  * @param {object} props - Props object
- *
  * @param {boolean} [props.shortSelectedOptions=true] - Whether to display shortened selected options
- *
  * @param {string} [props.invalidCronStringErrorMessage=""] - Error message to display if the cron string is invalid
- *
  * @param {string} [props.value=""] - Cron string value to initialize the component with.
- *
  * @returns {JSX.Element} - Crontab component JSX element
  */
 function Crontab(props) {
@@ -84,22 +80,6 @@ function Crontab(props) {
     setCronString(
       `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`
     );
-
-    // let newPeriod = { value: "minute", label: "Minute" };
-
-    // if (cronValue.months !== "*") {
-    //   newPeriod = { value: "year", label: "Year" };
-    // } else if (cronValue.daysOfTheMonth !== "*") {
-    //   newPeriod = { value: "month", label: "Month" };
-    // } else if (cronValue.daysOfTheWeek !== "*") {
-    //   newPeriod = { value: "week", label: "Week" };
-    // } else if (cronValue.hours !== "*") {
-    //   newPeriod = { value: "day", label: "Day" };
-    // } else if (cronValue.minutes !== "*") {
-    //   newPeriod = { value: "hour", label: "Hour" };
-    // }
-
-    // setPeriod(newPeriod);
   }, [cronValue]);
 
   useEffect(() => {
@@ -132,7 +112,7 @@ function Crontab(props) {
         backgroundColor: isDisabled
           ? undefined
           : isSelected
-          ? "grey"
+          ? "#1e99fa"
           : isFocused
           ? "grey"
           : undefined,
@@ -143,7 +123,7 @@ function Crontab(props) {
           ...styles[":active"],
           backgroundColor: !isDisabled
             ? isSelected
-              ? "blue"
+              ? "#1e99fa"
               : "grey"
             : undefined,
         },
