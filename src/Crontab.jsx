@@ -71,12 +71,12 @@ function Crontab(props) {
 
   // Set cron string value based on its value changes
   useEffect(() => {
-    if (onChange) {
-      onChange(
-        `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`,
-        !!errors.cronString
-      );
-    }
+    // if (onChange) {
+    //   onChange(
+    //     `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`,
+    //     !!errors.cronString
+    //   );
+    // }
     setCronString(
       `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`
     );
@@ -84,13 +84,19 @@ function Crontab(props) {
 
   useEffect(() => {
     if (value) {
-      if (onChange) {
-        onChange(value, !!errors.cronString);
-      }
+      // if (onChange) {
+      //   onChange(value, !!errors.cronString);
+      // }
       setCronString(value);
       handleCronInputBlur(value);
     }
   }, [value]);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(cronString, !!errors.cronString);
+    }
+  }, [cronString, errors.cronString]);
 
   const dot = (color = "transparent") => ({
     alignItems: "center",
@@ -447,9 +453,9 @@ function Crontab(props) {
           setCronString(e.target.value);
         }}
         onBlur={(e) => {
-          if (onChange) {
-            onChange(e.target.value, !!errors.cronString);
-          }
+          // if (onChange) {
+          //   onChange(e.target.value, !!errors.cronString);
+          // }
           handleCronInputBlur(e.target.value);
         }}
         style={{ width: "400px" }}
