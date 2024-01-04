@@ -72,16 +72,31 @@ function Crontab(props) {
 
   // Set cron string value based on its value changes
   useEffect(() => {
-    if (onChange) {
-      onChange(
-        `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`,
-        !!errors.cronString
-      );
-    }
     setCronString(
       `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`
     );
   }, [cronValue]);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange({
+        value: `${cronValue.minutes} ${cronValue.hours} ${cronValue.daysOfTheMonth} ${cronValue.months} ${cronValue.daysOfTheWeek}`,
+        error: !!errors.cronString,
+        minutes: cronValue.minutes,
+        hours: cronValue.hours,
+        daysOfTheMonth: cronValue.daysOfTheMonth,
+        months: cronValue.months,
+        daysOfTheWeek: cronValue.daysOfTheWeek,
+      });
+    }
+  }, [
+    errors,
+    cronValue.months,
+    cronValue.minutes,
+    cronValue.hours,
+    cronValue.daysOfTheWeek,
+    cronValue.daysOfTheMonth,
+  ]);
 
   useEffect(() => {
     if (value) {
@@ -277,13 +292,9 @@ function Crontab(props) {
     return selectedOptions;
   };
 
-  const handleCronInputBlur = (cronValue) => {
-    const cronInputValue = cronValue.trim();
+  const handleCronInputBlur = (cronValueStr) => {
+    const cronInputValue = cronValueStr.trim();
     const isValidCronValue = validateCronInput(cronInputValue);
-
-    if (onChange) {
-      onChange(cronValue, !isValidCronValue);
-    }
 
     if (!isValidCronValue) {
       setErrors({

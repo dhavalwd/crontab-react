@@ -5,6 +5,6 @@ import Crontab from "./Crontab.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Crontab />
+    <Crontab onChange={(data) => console.log(data)} />
   </React.StrictMode>
 );

@@ -10,7 +10,7 @@ export default {
     invalidCronStringErrorMessage: { control: "text" },
     value: { control: "text" },
     onChange: {
-      action: "changed value",
+      action: "changed values object",
       argsType: "function", // This line specifies that onClick is a function
     },
   },
@@ -37,5 +37,12 @@ export const InvalidErrorMessage = {
   args: {
     invalidCronStringErrorMessage: "Oops. Invalid cron string",
     value: "aaaa",
+  },
+};
+
+export const DisabledInputs = {
+  args: {
+    disabled: true,
+    value: "1-6 1-6 1-3 1-2,7 1,6",
   },
 };
