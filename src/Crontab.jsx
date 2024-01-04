@@ -213,16 +213,18 @@ function Crontab(props) {
 
   const validHyphenRange = (value, index) => {
     const splitItem = value.split("-");
+    const valueLeftSplit = Number(splitItem[0]);
+    const valueRightSplit = Number(splitItem[1]);
 
     if (splitItem.length !== 2) {
       return false;
-    } else if (splitItem[0] === "" || splitItem[1] === "") {
+    } else if (valueLeftSplit === "" || valueRightSplit === "") {
       return false;
-    } else if (splitItem[0] >= splitItem[1]) {
+    } else if (valueLeftSplit >= valueRightSplit) {
       return false;
     }
 
-    const arrayOfNumbers = range(Number(splitItem[0]), Number(splitItem[1]), 1);
+    const arrayOfNumbers = range(valueLeftSplit, valueRightSplit, 1);
 
     return validateAllowedValues(arrayOfNumbers, index);
   };
