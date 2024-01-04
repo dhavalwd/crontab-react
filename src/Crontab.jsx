@@ -103,7 +103,7 @@ function Crontab(props) {
       setCronString(value);
       handleCronInputBlur(value);
     }
-  }, [value]);
+  }, []);
 
   const dot = (color = "transparent") => ({
     alignItems: "center",
