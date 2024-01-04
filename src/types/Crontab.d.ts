@@ -13,6 +13,7 @@ declare function Crontab(props: {
   value: string;
   invalidCronStringErrorMessage: number;
   shortSelectedOptions: boolean;
+  disabled: boolean;
 }): JSX.Element;
 
 export default Crontab;

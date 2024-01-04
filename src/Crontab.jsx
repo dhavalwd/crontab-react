@@ -56,6 +56,7 @@ function Crontab(props) {
     invalidCronStringErrorMessage = "",
     value = "",
     onChange = () => {},
+    disabled = false,
   } = props;
   const [period, setPeriod] = useState({ value: "minute", label: "Minute" });
   const [cronValue, setCronValue] = useState(DEFAULT_CRON);
@@ -450,9 +451,10 @@ function Crontab(props) {
         className={`cr-container-cron-input ${
           errors.cronString && "cr-has-error"
         }`}
-        onChange={(e) => setCronString(e.target.value)}
-        onBlur={(e) => handleCronInputBlur(e.target.value)}
+        onChange={(e) => { if (disabled) { return; };setCronString(e.target.value)}}
+        onBlur={(e) => { if (disabled) { return; };handleCronInputBlur(e.target.value)}}
         style={{ width: "400px" }}
+        disabled={disabled}
       />
       {errors.cronString && (
         <span className="cr-error-text">{errors.cronString}</span>
@@ -467,6 +469,7 @@ function Crontab(props) {
           styles={colorStyles}
           menuShouldScrollIntoView={false}
           className="cr-container-field-period"
+          isDisabled={disabled}
         />
       </div>
       {["year"].includes(period.value) && (
@@ -487,6 +490,7 @@ function Crontab(props) {
             {...(shortSelectedOptions
               ? { formatOptionLabel: shortFormatOptionLabel }
               : {})}
+            isDisabled={disabled}
           />
         </div>
       )}
@@ -503,6 +507,7 @@ function Crontab(props) {
             placeholder={<div>Every day of the month</div>}
             value={selectedValues.daysOfTheMonth}
             closeMenuOnSelect={false}
+            isDisabled={disabled}
           />
         </div>
       )}
@@ -522,6 +527,7 @@ function Crontab(props) {
             {...(shortSelectedOptions
               ? { formatOptionLabel: shortFormatOptionLabel }
               : {})}
+            isDisabled={disabled}
           />
         </div>
       )}
@@ -538,6 +544,7 @@ function Crontab(props) {
             placeholder={<div>Every Hour</div>}
             value={selectedValues.hours}
             closeMenuOnSelect={false}
+            isDisabled={disabled}
           />
         </div>
       )}
@@ -554,6 +561,7 @@ function Crontab(props) {
             placeholder={<div>Every Minute</div>}
             value={selectedValues.minutes}
             closeMenuOnSelect={false}
+            isDisabled={disabled}
           />
         </div>
       )}
@@ -566,13 +574,15 @@ Crontab.propTypes = {
   invalidCronStringErrorMessage: PropTypes.string,
   shortSelectedOptions: PropTypes.bool,
   onChange: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 Crontab.defaultProps = {
   value: "",
   invalidCronStringErrorMessage: "",
   shortSelectedOptions: true,
-  onChange: () => {},
+  onChange: () => { },
+  disabled: false,
 };
 
 export default Crontab;
