@@ -462,8 +462,18 @@ function Crontab(props) {
         className={`cr-container-cron-input ${
           errors.cronString && "cr-has-error"
         }`}
-        onChange={(e) => { if (disabled) { return; };setCronString(e.target.value)}}
-        onBlur={(e) => { if (disabled) { return; };handleCronInputBlur(e.target.value)}}
+        onChange={(e) => {
+          if (disabled) {
+            return;
+          }
+          setCronString(e.target.value);
+        }}
+        onBlur={(e) => {
+          if (disabled) {
+            return;
+          }
+          handleCronInputBlur(e.target.value);
+        }}
         style={{ width: "400px" }}
         disabled={disabled}
       />
@@ -592,7 +602,7 @@ Crontab.defaultProps = {
   value: "",
   invalidCronStringErrorMessage: "",
   shortSelectedOptions: true,
-  onChange: () => { },
+  onChange: () => {},
   disabled: false,
 };
 
