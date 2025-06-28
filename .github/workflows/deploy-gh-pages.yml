@@ -43,6 +43,8 @@ jobs:
         run: npm run build-storybook
       - name: Setup Pages
         uses: actions/configure-pages@v3
+      - name: Debug build output
+        run: ls -la ./storybook-static
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -51,4 +53,4 @@ jobs:
           name: github-pages
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v1.2.5
