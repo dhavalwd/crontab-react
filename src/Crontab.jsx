@@ -206,7 +206,7 @@ function Crontab(props) {
     } else if (index === 3) {
       return arrayOfNumbers.every((number) => number >= 1 && number <= 12);
     } else if (index === 4) {
-      return arrayOfNumbers.every((number) => number >= 1 && number <= 7);
+      return arrayOfNumbers.every((number) => number >= 0 && number <= 6);
     }
     return false;
   };

@@ -29,13 +29,13 @@ export const daysOfTheMonthOptions = new Array(32).fill(1, 1).map((_, i) => {
 });
 
 export const daysOfTheWeekOptions = [
+  { value: 0, label: "Sunday" },
   { value: 1, label: "Monday" },
   { value: 2, label: "Tuesday" },
   { value: 3, label: "Wednesday" },
   { value: 4, label: "Thursday" },
   { value: 5, label: "Friday" },
   { value: 6, label: "Saturday" },
-  { value: 7, label: "Sunday" },
 ];
 
 export const hoursOptions = new Array(24).fill(1).map((_, i) => {
