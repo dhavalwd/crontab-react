@@ -46,6 +46,9 @@ jobs:
       - name: Debug build output
         run: ls -la ./storybook-static
 
+      - name: Confirm index.html
+        run: cat ./storybook-static/index.html | head -n 20
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
