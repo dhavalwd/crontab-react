@@ -57,6 +57,7 @@ jobs:
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
           force_orphan: true
+          clean: true
       # - name: Upload artifact
       #   uses: actions/upload-pages-artifact@v3
       #   with:
